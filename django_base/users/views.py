@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import User
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from users.forms import RegisterForm
+from users.models import UserProfile
 
 def login_view(request):
     if request.method == 'GET':
@@ -44,3 +49,8 @@ def users_list_view(request):
 
 def user_profile_view(request):
     return render(request, 'users/user_profile.html')
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user = instance)
