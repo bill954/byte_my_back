@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from admin_settings.models import Country, Language
+
 class UserProfile(models.Model):
     
     CHOICE = (
@@ -17,11 +19,13 @@ class UserProfile(models.Model):
     occupation = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     availability = models.CharField(max_length=30, choices=CHOICE, blank=True, null=True)
+    birth_date = models.DateField(blank=True, null=True)
     years_of_experience = models.PositiveIntegerField(blank=True, null=True)
+    address = models.CharField(max_length=150, blank=True, null=True)
     company_name = models.CharField(max_length=100, blank=True, null=True)
     
-    # language
-    # country
+    country = models.ForeignKey(Country, on_delete=models.RESTRICT)
+    language = models.ForeignKey(Language, on_delete=models.RESTRICT)
     
     def __str__(self):
         return self.user.username
