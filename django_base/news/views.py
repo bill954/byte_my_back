@@ -11,6 +11,8 @@ def fetch_news(request):
         return HttpResponse(response.status_code)
     response = response.json()
     
+    news_to_create = []
+    
     for article in response['articles']:
         if all([article['title'],
                 article['description'],
@@ -18,12 +20,14 @@ def fetch_news(request):
                 article['urlToImage'],
                 article['publishedAt']
                 ]):
-            News.objects.create(
+            news_to_create.append(News(
                 title=article['title'],
                 description=article['description'],
                 url=article['url'],
                 urlToImage=article['urlToImage'],
                 publishedAt=article['publishedAt']
-            )
+            ))
+    
+    News.objects.bulk_create(news_to_create)
              
     return HttpResponse(response['articles'])
