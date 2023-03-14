@@ -8,6 +8,7 @@ from django.dispatch import receiver
 
 from users.forms import RegisterForm, UserProfileForm
 from users.models import UserProfile
+from news.utils import get_random_news
 
 from admin_settings.models import Country, Language
 
@@ -51,9 +52,14 @@ def users_list_view(request):
 
 def user_profile_view(request):
     if request.method == 'GET':
+        # get news to show alongside the profile
+        main_new, other_news = get_random_news()
+        
         context = {
             'languages': Language.objects.all(),
             'countries': Country.objects.all(),
+            'main_new': main_new,
+            'other_news': other_news,
         }
         return render(request, 'users/user_profile.html', context)
     elif request.method =='POST':

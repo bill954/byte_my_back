@@ -6,5 +6,5 @@ class CountryAdmin(admin.ModelAdmin):
     list_display = ('name', 'code')
     
 @admin.register(Language)
-class LanguateAdmin(admin.ModelAdmin):
+class LanguageAdmin(admin.ModelAdmin):
     list_display = ('name',)
