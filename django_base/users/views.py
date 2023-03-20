@@ -54,7 +54,8 @@ def user_profile_view(request):
     if request.method == 'GET':
         # get news to show alongside the profile
         main_new, other_news = get_random_news()
-        
+        print("main new", main_new.urlToImage, '/n')
+        print('other new', other_news[0].urlToImage)
         context = {
             'languages': Language.objects.all(),
             'countries': Country.objects.all(),
