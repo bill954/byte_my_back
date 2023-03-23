@@ -6,6 +6,7 @@ from coins.utils import generate_transactions
 from coins.models import Coin, Transaction
 
 from datetime import timedelta
+import random
 
 @login_required
 def wallets_view(request):
@@ -43,5 +44,15 @@ def get_five_days_data(request):
             'data':coin.get_last_five_days_data()
             }
         )
-    print(context)
     return context
+
+def get_recent_transactions(request):
+    since_day = Transaction.get_last_day() - timedelta(days=120)
+    transactions = random.choices(Transaction.objects.filter(date__gte=since_day), k=6)
+    return transactions
+
+def get_last_transactions(request):
+    last_transactions = []
+    for coin in Coin.objects.all():
+        last_transactions.append(Transaction.objects.filter(coin=coin).order_by('-date')[0:8])
+    return last_transactions

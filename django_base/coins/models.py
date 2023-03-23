@@ -56,7 +56,7 @@ class Coin(models.Model):
         # get last day avarage price
         last_day = self.get_last_day()
         last_day_transactions = self.transactions.filter(date__date=last_day)
-        return last_day_transactions.aggregate(average = Avg('price'))['average']
+        return round(last_day_transactions.aggregate(average = Avg('price'))['average'], 3)
     
     def get_performance_of_week(self, end_date):
         week_price = 0
@@ -71,8 +71,13 @@ class Coin(models.Model):
         last_day = self.get_last_day()
         current_week_price, last_day = self.get_performance_of_week(last_day) 
         last_week_price, last_day = self.get_performance_of_week(last_day)
-        print(current_week_price, last_week_price)
-        return (current_week_price - last_week_price) / (last_week_price) * 100
+        
+        return round((current_week_price - last_week_price) / (last_week_price) * 100, 2)
+    
+    def get_last_transactions(self):
+        if not self.transactions:
+            return []
+        return self.transactions.order_by('-date')[:7]
 
 
 class Transaction(models.Model):
@@ -94,3 +99,6 @@ class Transaction(models.Model):
     @classmethod
     def get_last_day(cls):
         return cls.objects.all().order_by('-date').first().date.date()
+    
+    def get_total_price(self):
+        return round(self.price * self.amount, 3)
