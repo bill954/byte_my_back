@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -46,9 +47,17 @@ def register(request):
                 'errors': form.errors,
             }
             return render(request, 'users/register.html', context)
-        
+
+@login_required
 def users_list_view(request):
-    return render(request, 'users/users_list.html')
+    if not request.user.is_superuser:
+        return redirect('index')
+
+    context = {
+        'users': User.objects.exclude(id=request.user.id)
+    }
+    
+    return render(request, 'users/users_list.html', context=context)
 
 def user_profile_view(request):
     if request.method == 'GET':
@@ -94,3 +103,19 @@ def user_profile_view(request):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user = instance)
+
+@login_required
+def block_user(request, user_id):
+    if not request.user.is_superuser:
+        return redirect('index')
+    user = User.objects.get(id=user_id)
+    user.is_active = not user.is_active
+    user.save()
+    return redirect('users_list')
+
+@login_required
+def delete_user(request, user_id):
+    if not request.user.is_superuser:
+        return redirect('index')
+    User.objects.get(id=user_id).delete()
+    return redirect('users_list')
