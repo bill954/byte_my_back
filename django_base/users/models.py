@@ -23,9 +23,11 @@ class UserProfile(models.Model):
     years_of_experience = models.PositiveIntegerField(blank=True, null=True)
     address = models.CharField(max_length=150, blank=True, null=True)
     company_name = models.CharField(max_length=100, blank=True, null=True)
+    facebook = models.CharField(max_length=256, blank=True, null=True)
     
     country = models.ForeignKey(Country, on_delete=models.RESTRICT)
     language = models.ForeignKey(Language, on_delete=models.RESTRICT)
+    
     
     def __str__(self):
         return self.user.username

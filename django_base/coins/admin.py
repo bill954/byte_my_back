@@ -1,5 +1,5 @@
 from django.contrib import admin
-from coins.models import Card, Coin, Transaction
+from coins.models import Card, Coin, Transaction, CoinCurrency
 
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
@@ -12,3 +12,7 @@ class CoinAdmin(admin.ModelAdmin):
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ('coin', 'transaction_type', 'date')
+    
+@admin.register(CoinCurrency)
+class CoinCurrencyAdmin(admin.ModelAdmin):
+    list_display = ('user', 'coin', 'amount')

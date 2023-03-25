@@ -102,3 +102,15 @@ class Transaction(models.Model):
     
     def get_total_price(self):
         return round(self.price * self.amount, 3)
+    
+class CoinCurrency(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='currency')
+    coin = models.ForeignKey(Coin, on_delete=models.CASCADE, related_name='coins')
+    amount = models.FloatField()
+    
+    class Meta:
+        verbose_name = 'currency'
+        verbose_name_plural = 'currencies'
+    
+    def get_total_price(self):
+        return self.coin.get_last_day_price() * self.amount

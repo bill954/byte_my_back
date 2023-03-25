@@ -33,7 +33,9 @@
 										</div>
 									</div>
 									<div class="card-body">
-										<div class="bg-success coin-holding flex-wrap">
+										{% for coin in coins %}
+										{% if coin.name == 'Ethereum' %}
+										<div class="bg-success coin-holding mt-4 flex-wrap">
 											<div class="mb-2 coin-bx">
 												<div class="d-flex align-items-center">
 													<div>
@@ -68,11 +70,12 @@
 													<svg width="21" height="14" viewbox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 														<path d="M1 13C1.91797 11.9157 4.89728 8.72772 6.5 7L12.5 10L19.5 1" stroke="#2BC155" stroke-width="2" stroke-linecap="round"></path>
 													</svg>
-													<p class="mb-0 ml-2 text-success">45%</p>
+													<p class="mb-0 ml-2 text-success">{{coin.get_performance}}%</p>
 													<p class="mb-0 ml-2 font-w400 text-white">This Week</p>	
 												</div>
 											</div>
 										</div>
+										{% elif coin.name == 'Litecoin' %}
 										<div class="bg-secondary coin-holding mt-4 flex-wrap">
 											<div class="mb-2 coin-bx">
 												<div class="d-flex align-items-center">
@@ -122,11 +125,12 @@
 														</defs>
 													</svg>
 
-													<p class="mb-0 ml-2 text-danger">45%</p>
+													<p class="mb-0 ml-2 text-danger">{{coin.get_performance}}%</p>
 													<p class="mb-0 ml-2 font-w400 text-white">This Week</p>	
 												</div>
 											</div>
 										</div>
+										{% elif coin.name == 'Bitcoin' %}
 										<div class="bg-warning coin-holding mt-4 flex-wrap">
 											<div class="mb-2 coin-bx">
 												<div class="d-flex align-items-center">
@@ -164,11 +168,12 @@
 													<svg width="21" height="14" viewbox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 														<path d="M1 13C1.91797 11.9157 4.89728 8.72772 6.5 7L12.5 10L19.5 1" stroke="#2BC155" stroke-width="2" stroke-linecap="round"></path>
 													</svg>
-													<p class="mb-0 ml-2 text-success">45%</p>
+													<p class="mb-0 ml-2 text-success">{{coin.get_performance}}%</p>
 													<p class="mb-0 ml-2 font-w400 text-white">This Week</p>	
 												</div>
 											</div>
 										</div>
+										{% elif coin.name == 'Monero' %}
 										<div class="bg-primary coin-holding mt-4 flex-wrap">
 											<div class="mb-2 coin-bx">
 												<div class="d-flex align-items-center">
@@ -205,11 +210,13 @@
 													<svg width="21" height="14" viewbox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 														<path d="M1 13C1.91797 11.9157 4.89728 8.72772 6.5 7L12.5 10L19.5 1" stroke="#2BC155" stroke-width="2" stroke-linecap="round"></path>
 													</svg>
-													<p class="mb-0 ml-2 text-success">45%</p>
+													<p class="mb-0 ml-2 text-success">{{coin.get_performance}}%</p>
 													<p class="mb-0 ml-2 font-w400 text-white">This Week</p>	
 												</div>
 											</div>
 										</div>
+										{% endif %}
+										{% endfor %}
 									</div>
 								</div>
 							</div>
@@ -225,15 +232,15 @@
 									<div class="card-body">
 										<div class="text-center">
 											<div class="my-profile">
-												<img src="images/profile/port.jpg" alt="" class="rounded">
+												<img src="{{request.user.profile.profile_image.url}}" alt="" class="rounded">
 											</div>
-											<h4 class="mt-3 font-w600 text-black mb-0 name-text">Marquezz Silalahi</h4>
-											<p class="mb-0 mt-2">Join on 24 March 2017</p>
+											<h4 class="mt-3 font-w600 text-black mb-0 name-text">{{request.user.get_full_name}}</h4>
+											<p class="mb-0 mt-2">Join on {{request.user.date_joined}}</p>
 										</div>
 										<ul class="portfolio-social">
-											<li><a href="javascript:void(0);"><i class="fa fa-phone"></i></a></li>
-											<li><a href="javascript:void(0);"><i class="fa fa-envelope-o"></i></a></li>
-											<li><a href="javascript:void(0);"><i class="fa fa-facebook"></i></a></li>
+											<li><a target="_blank" href="{{request.user.profile.phone_number}}"><i class="fa fa-phone"></i></a></li>
+											<li><a target="_blank" href="{{request.user.email}}"><i class="fa fa-envelope-o"></i></a></li>
+											<li><a target="_blank" href="{{request.user.profile.facebook}}"><i class="fa fa-facebook"></i></a></li>
 										</ul>
 									</div>
 								</div>
