@@ -24,6 +24,7 @@ class Card(models.Model):
     bank_name = models.CharField(max_length=80)
     valid_date = models.DateField()
     color = models.CharField(max_length=10, choices=CHOICES, default='purple')
+    balance = models.FloatField(default=15000)
     
     def __str__(self):
         return self.card_name

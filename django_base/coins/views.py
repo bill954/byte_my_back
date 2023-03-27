@@ -1,17 +1,48 @@
+import random
+
+from datetime import timedelta, datetime
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from coins.utils import generate_transactions, generate_currencies
-from coins.models import Coin, Transaction
+from coins.models import Coin, Transaction, Card
+from coins.forms import CardForm
 
-
-from datetime import timedelta
-import random
 
 @login_required
 def wallets_view(request):
-    return render(request, 'coins/wallets.html')
+    if request.method == 'GET':
+        context = {
+            'cards': Card.objects.filter(user=request.user)
+        }
+        return render(request, 'coins/wallets.html', context)
+
+    elif request.method == 'POST':
+        # request.POST is inmutable, so we need to make a copy to change the valid_date format
+        data = request.POST.copy()
+        data['valid_date'] = datetime.strptime(request.POST['valid_date'], '%m/%y').date()
+        form = CardForm(data)
+        if form.is_valid():
+            card = form.save(commit=False)
+            card.user = request.user
+            card.balance = random.randint(10000, 30000) * random.random()
+            card.save()
+            return redirect('wallets')
+        else:
+            context = {
+            'cards': Card.objects.filter(user=request.user),
+            'errors': form.errors
+        }
+            return render(request, 'coins/wallets.html', context=context)
+
+    return redirect('index')
+
+@login_required
+def delete_card(request, card_id):
+    Card.objects.get(id=card_id).delete()
+    return redirect('wallets')
 
 @login_required
 def coins_view(request):
