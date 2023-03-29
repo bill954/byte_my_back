@@ -61,7 +61,7 @@
 														</svg>
 													</div>	
 													<div class="ml-3">
-														<h2 class="mb-0 text-white coin-font-1">$667,224</h2>
+														<h2 class="mb-0 text-white coin-font-1">${{coin.user_currency|floatformat:3}}</h2>
 													</div>
 												</div>
 											</div>
@@ -102,7 +102,7 @@
 														</svg>
 													</div>	
 													<div class="ml-3">
-														<h2 class="mb-0 text-white coin-font-1">$168,331.09</h2>
+														<h2 class="mb-0 text-white coin-font-1">${{coin.user_currency|floatformat:3}}</h2>
 													</div>
 												</div>
 											</div>
@@ -159,7 +159,7 @@
 														</svg>
 													</div>	
 													<div class="ml-3">
-														<h2 class="mb-0 text-white coin-font-1">$667,224</h2>
+														<h2 class="mb-0 text-white coin-font-1">${{coin.user_currency|floatformat:3}}</h2>
 													</div>
 												</div>
 											</div>
@@ -201,7 +201,7 @@
 														</svg>
 													</div>	
 													<div class="ml-3">
-														<h2 class="mb-0 text-white coin-font-1">$24,098</h2>
+														<h2 class="mb-0 text-white coin-font-1">${{coin.user_currency|floatformat:3}}</h2>
 													</div>
 												</div>
 											</div>
@@ -238,8 +238,8 @@
 											<p class="mb-0 mt-2">Join on {{request.user.date_joined}}</p>
 										</div>
 										<ul class="portfolio-social">
-											<li><a target="_blank" href="{{request.user.profile.phone_number}}"><i class="fa fa-phone"></i></a></li>
-											<li><a target="_blank" href="{{request.user.email}}"><i class="fa fa-envelope-o"></i></a></li>
+											<li><a href="tel:{{request.user.profile.phone}}"><i class="fa fa-phone"></i></a></li>
+                                            <li><a href="mailto:{{request.user.email}}"><i class="fa fa-envelope-o"></i></a></li>
 											<li><a target="_blank" href="{{request.user.profile.facebook}}"><i class="fa fa-facebook"></i></a></li>
 										</ul>
 									</div>

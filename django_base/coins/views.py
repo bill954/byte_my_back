@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from coins.utils import generate_transactions, generate_currencies
-from coins.models import Coin, Transaction, Card
+from coins.models import Coin, Transaction, Card, CoinCurrency
 from coins.forms import CardForm
 
 
@@ -51,9 +51,17 @@ def coins_view(request):
 @login_required
 def portfolio_view(request):
     coins = Coin.objects.all()
+#    currencies = CoinCurrency.objects.all()
     for coin in coins:
-        coin.user_data = 4
-        # falta conectar los datos de cada currency con el usuario
+        amount = coin.currency.filter(user=request.user).first().amount
+        price = coin.get_last_day_price()
+        coin.user_currency = amount * price
+        # other solution
+        # for currency in currencies:
+        #     if currency.user == request.user and currency.coin == coin:
+        #         price = coin.get_last_day_price()
+        #         coin.amount = currency.amount * price
+
     context = {
         'coins': coins
     }

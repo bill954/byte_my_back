@@ -57,7 +57,7 @@ class Coin(models.Model):
         # get last day avarage price
         last_day = self.get_last_day()
         last_day_transactions = self.transactions.filter(date__date=last_day)
-        return round(last_day_transactions.aggregate(average = Avg('price'))['average'], 3)
+        return last_day_transactions.aggregate(average = Avg('price'))['average']
     
     def get_performance_of_week(self, end_date):
         week_price = 0
@@ -106,7 +106,7 @@ class Transaction(models.Model):
     
 class CoinCurrency(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='currency')
-    coin = models.ForeignKey(Coin, on_delete=models.CASCADE, related_name='coins')
+    coin = models.ForeignKey(Coin, on_delete=models.CASCADE, related_name='currency')
     amount = models.FloatField()
     
     class Meta:
