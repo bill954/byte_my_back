@@ -1,9 +1,9 @@
-﻿{% extends 'base.html'%}
+﻿{% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
 
-<!--**********************************
+{% block content %}
+		<!--**********************************
             Content body start
         ***********************************-->
         <div class="content-body">
@@ -34,7 +34,7 @@
 									</div>
 									<div class="card-body">
 										{% for coin in coins %}
-										{% if coin.name == 'Ethereum' %}
+										{% if coin.name == "Ethereum" %}
 										<div class="bg-success coin-holding mt-4 flex-wrap">
 											<div class="mb-2 coin-bx">
 												<div class="d-flex align-items-center">
@@ -74,8 +74,9 @@
 													<p class="mb-0 ml-2 font-w400 text-white">This Week</p>	
 												</div>
 											</div>
+											<a href="{% url 'coin_details' coin.id %}" class="stretched-link"></a>
 										</div>
-										{% elif coin.name == 'Litecoin' %}
+										{% elif coin.name == "Litecoin" %}
 										<div class="bg-secondary coin-holding mt-4 flex-wrap">
 											<div class="mb-2 coin-bx">
 												<div class="d-flex align-items-center">
@@ -129,8 +130,9 @@
 													<p class="mb-0 ml-2 font-w400 text-white">This Week</p>	
 												</div>
 											</div>
+											<a href="{% url 'coin_details' coin.id %}" class="stretched-link"></a>
 										</div>
-										{% elif coin.name == 'Bitcoin' %}
+										{% elif coin.name == "Bitcoin" %}
 										<div class="bg-warning coin-holding mt-4 flex-wrap">
 											<div class="mb-2 coin-bx">
 												<div class="d-flex align-items-center">
@@ -172,8 +174,9 @@
 													<p class="mb-0 ml-2 font-w400 text-white">This Week</p>	
 												</div>
 											</div>
+											<a href="{% url 'coin_details' coin.id %}" class="stretched-link"></a>
 										</div>
-										{% elif coin.name == 'Monero' %}
+										{% elif coin.name == "Monero" %}
 										<div class="bg-primary coin-holding mt-4 flex-wrap">
 											<div class="mb-2 coin-bx">
 												<div class="d-flex align-items-center">
@@ -214,6 +217,7 @@
 													<p class="mb-0 ml-2 font-w400 text-white">This Week</p>	
 												</div>
 											</div>
+											<a href="{% url 'coin_details' coin.id %}" class="stretched-link"></a>
 										</div>
 										{% endif %}
 										{% endfor %}
@@ -235,12 +239,12 @@
 												<img src="{{request.user.profile.profile_image.url}}" alt="" class="rounded">
 											</div>
 											<h4 class="mt-3 font-w600 text-black mb-0 name-text">{{request.user.get_full_name}}</h4>
-											<p class="mb-0 mt-2">Join on {{request.user.date_joined}}</p>
+											<p class="mb-0 mt-2">{{request.user.date_joined}}</p>
 										</div>
 										<ul class="portfolio-social">
 											<li><a href="tel:{{request.user.profile.phone}}"><i class="fa fa-phone"></i></a></li>
-                                            <li><a href="mailto:{{request.user.email}}"><i class="fa fa-envelope-o"></i></a></li>
-											<li><a target="_blank" href="{{request.user.profile.facebook}}"><i class="fa fa-facebook"></i></a></li>
+											<li><a href="mailto:{{request.user.email}}"><i class="fa fa-envelope-o"></i></a></li>
+											<li><a href="javascript:void(0);"><i class="fa fa-facebook"></i></a></li>
 										</ul>
 									</div>
 								</div>
@@ -254,5 +258,4 @@
         <!--**********************************
             Content body end
         ***********************************-->
-
 {% endblock %}

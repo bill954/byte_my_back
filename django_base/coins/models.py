@@ -75,6 +75,10 @@ class Coin(models.Model):
         
         return round((current_week_price - last_week_price) / (last_week_price) * 100, 2)
     
+    def get_last_day_performance(self):
+        self.get_last_day()
+        
+    
     def get_last_transactions(self):
         if not self.transactions:
             return []

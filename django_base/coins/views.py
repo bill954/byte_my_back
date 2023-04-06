@@ -45,8 +45,12 @@ def delete_card(request, card_id):
     return redirect('wallets')
 
 @login_required
-def coins_view(request):
-    return render(request, 'coins/coins.html')
+def coins_view(request, pk):
+    coin = Coin.objects.get(id=pk)
+    context = {
+        'coin': coin
+    }
+    return render(request, 'coins/coins.html', context=context)
 
 @login_required
 def portfolio_view(request):
